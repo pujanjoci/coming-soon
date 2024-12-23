@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UnderConstruction</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: #282c34;
+      color: #61dafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    #typewriter {
+      font-size: 2rem;
+      border-right: 2px solid #61dafb;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: #61dafb; }
+    }
+
+    #typewriter {
+      animation: blink-caret 0.5s step-end infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="typewriter"></h1>
+  </div>
+
+  <script>
+    const messages = ["Coming Soon", "Under Construction", "Development on the way"];
+    let index = 0;
+    let isDeleting = false;
+    let charIndex = 0;
+    const typingSpeed = 70;
+    const deletingSpeed = 50;
+    const pauseBetweenMessages = 1500;
+    const element = document.getElementById("typewriter");
+
+    function typeWriterEffect() {
+      const currentMessage = messages[index];
+
+      if (!isDeleting && charIndex < currentMessage.length) {
+        element.textContent += currentMessage.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriterEffect, typingSpeed);
+      } else if (isDeleting && charIndex > 0) {
+        element.textContent = currentMessage.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(typeWriterEffect, deletingSpeed);
+      } else if (!isDeleting && charIndex === currentMessage.length) {
+        isDeleting = true;
+        setTimeout(typeWriterEffect, pauseBetweenMessages);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        index = (index + 1) % messages.length;
+        setTimeout(typeWriterEffect, typingSpeed);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", typeWriterEffect);
+  </script>
+</body>
+</html>
